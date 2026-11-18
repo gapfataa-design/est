@@ -1,0 +1,248 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+    font-family: 'Montserrat', sans-serif;
+    color: #fff;
+}
+
+/* Pantalla inicial de pregunta */
+#pantalla-inicio {
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at center, #161b33 0%, #06070d 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 50;
+    transition: opacity 0.6s ease;
+}
+
+#pantalla-inicio.desvanecer {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.caja-pregunta {
+    text-align: center;
+    padding: 40px 35px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 25px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+    animation: flotar 3.5s ease-in-out infinite;
+}
+
+.caja-pregunta h2 {
+    font-family: 'Cinzel', serif;
+    font-size: 2.2rem;
+    margin-bottom: 30px;
+    background: linear-gradient(90deg, #ffecd2, #ffd166, #ff9a9e);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.botones {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+}
+
+.btn-opcion {
+    padding: 14px 36px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    font-family: 'Montserrat', sans-serif;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.btn-si {
+    color: #1a1528;
+    background: linear-gradient(135deg, #ffd166 0%, #fbc2eb 100%);
+    box-shadow: 0 0 22px rgba(255, 209, 102, 0.55);
+}
+
+.btn-si:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 32px rgba(255, 209, 102, 0.85);
+}
+
+.btn-no {
+    color: #cbd5e1;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Lienzo de lluvia de estrellas */
+#canvas-estrellas {
+    position: fixed;
+    inset: 0;
+    z-index: 5;
+    pointer-events: none;
+}
+
+/* Universo principal */
+.universo {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transform: scale(0.92);
+    transition: opacity 1.5s ease, transform 1.5s ease;
+}
+
+.universo.oculto {
+    pointer-events: none;
+}
+
+.universo.visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Estrellas fijas de fondo */
+.estrellas {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(2px 2px at 20px 30px, #ffd166, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 40px 70px, #fff, rgba(0,0,0,0)),
+        radial-gradient(1px 1px at 90px 40px, #ddd, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 160px 120px, #fff, rgba(0,0,0,0)),
+        radial-gradient(1.5px 1.5px at 230px 180px, #a8c0ff, rgba(0,0,0,0));
+    background-repeat: repeat;
+    background-size: 250px 250px;
+    animation: parpadeo 4s infinite alternate;
+    opacity: 0.85;
+}
+
+/* Galaxia y órbitas */
+.galaxia {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+}
+
+.nucleo {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #fff 10%, #ffd166 42%, #a18cd1 75%, transparent 100%);
+    box-shadow: 0 0 60px #ffd166, 0 0 120px #8e44ad;
+    animation: pulsar 3s infinite alternate;
+}
+
+.orbita {
+    position: absolute;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 50%;
+    animation: girar linear infinite;
+}
+
+.orbita-1 { width: 220px; height: 220px; animation-duration: 12s; }
+.orbita-2 { width: 360px; height: 360px; animation-duration: 20s; }
+.orbita-3 { width: 520px; height: 520px; animation-duration: 30s; }
+
+.planeta {
+    position: absolute;
+    top: -6px;
+    left: 50%;
+    border-radius: 50%;
+}
+
+.p1 { width: 12px; height: 12px; background: #ffd166; box-shadow: 0 0 12px #ffd166; }
+.p2 { width: 16px; height: 16px; background: #8fd3f4; box-shadow: 0 0 15px #8fd3f4; }
+.p3 { width: 20px; height: 20px; background: #fbc2eb; box-shadow: 0 0 18px #fbc2eb; }
+
+/* Tarjeta romántica */
+.tarjeta-amor {
+    position: relative;
+    z-index: 10;
+    max-width: 460px;
+    padding: 35px 30px;
+    text-align: center;
+    background: rgba(18, 15, 36, 0.58);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 209, 102, 0.25);
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.65);
+    animation: flotar 4s ease-in-out infinite;
+}
+
+.tarjeta-amor h1 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.85rem;
+    margin-bottom: 15px;
+    background: linear-gradient(90deg, #ffecd2, #ffd166, #ff9a9e);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.tarjeta-amor p {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #e2e8f0;
+    font-weight: 300;
+}
+
+.controles-audio {
+    margin-top: 22px;
+}
+
+.btn-mini {
+    padding: 8px 18px;
+    font-size: 0.85rem;
+    font-family: 'Montserrat', sans-serif;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background 0.25s ease;
+}
+
+.btn-mini:hover {
+    background: rgba(255, 209, 102, 0.25);
+}
+
+/* Animaciones */
+@keyframes girar {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes parpadeo {
+    0% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+@keyframes pulsar {
+    0% { transform: scale(0.95); }
+    100% { transform: scale(1.08); }
+}
+
+@keyframes flotar {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
